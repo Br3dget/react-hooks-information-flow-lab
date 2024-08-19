@@ -1,18 +1,41 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ShoppingList from '../components/ShoppingList';
+import Filter from './Filter';
+import Item from './Item';
 
-const testData = [
-  { name: 'Apple', category: 'fruit' },
-  { name: 'Carrot', category: 'vegetable' },
- 
-];
+function ShoppingList({ category, onCategoryChange }) {
+  const items = [
+    { name: 'Apples', category: 'produce', inCart: false },
+    { name: 'Bread', category: 'bakery', inCart: false },
+    { name: 'Milk', category: 'dairy', inCart: false },
+  ];
 
-test("displays all items when initially rendered", () => {
-  const { container } = render(<ShoppingList items={testData} />);
-  expect(container.querySelector(".Items").children).toHaveLength(testData.length);
-});
+  const filteredItems = items.filter((item) => {
+    if (category === 'all') return true;
+    return item.category === category;
+  });
 
+  const handleAddToCart = (item) => {
+    
+    item.inCart = true;
+  };
+
+  return (
+    <div>
+      <Filter onCategoryChange={onCategoryChange} />
+      <ul>
+        {filteredItems.map((item) => (
+          <Item
+            key={item.name}
+            item={item}
+            onAddToCart={() => handleAddToCart(item)}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default ShoppingList;
 
 
 

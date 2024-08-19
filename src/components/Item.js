@@ -1,14 +1,13 @@
-import React from "react";
+function Item({ item, onAddToCart }) {
+  const handleClick = () => {
+    onAddToCart();
+  };
 
-function Item({ item }) {
   return (
-    <li>
-      <span>{item.name}</span>
-      <span className="category">{item.category}</span>
+    <li className={item.inCart ? 'in-cart' : ''}>
+      {item.name}
+      <button onClick={handleClick}>Add to Cart</button>
     </li>
   );
 }
-
-export default Item;
-
 
